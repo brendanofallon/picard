@@ -52,14 +52,25 @@ import java.util.List;
  * @author Tim Fennell
  */
 @CommandLineProgramProperties(
-        usage = "Program to generate a data table and pdf chart of " +
-                "mean base quality by cycle from a SAM or BAM file.  Works best on a single lane/run of data, but can be applied to" +
-                "merged BAMs. Uses R to generate chart output.",
-        usageShort = "Writes mean quality by cycle for a SAM or BAM file",
+        usage = MeanQualityByCycle.USAGE_SUMMARY + MeanQualityByCycle.USAGE_DETAILS,
+        usageShort = MeanQualityByCycle.USAGE_SUMMARY,
         programGroup = Metrics.class
 )
 public class MeanQualityByCycle extends SinglePassSamProgram {
-
+    static final String USAGE_SUMMARY = "Writes mean quality by cycle for a SAM or BAM file";
+    static final String USAGE_DETAILS = "Tool generates a data table and chart of mean quality by cycle from a BAM file." +
+            "  Works best on a single lane or read group of data, but can be applied to merged BAMs.  <br /><br />" +
+            "This metric gives an overall snapshot of sequencing machine performance.  It is expected that the output will show a slight reduction in overall base quality scores" +
+            " towards the end of a run. <br /><br />" +
+            "" +
+            "<h4>Usage example:</h4>" +
+            "<pre>" +
+            "java -jar picard.jar MeanQualityByCycle \\<br />" +
+            "      I=input.bam \\<br />" +
+            "      O=mean_qual_by_cycle.txt \\<br />" +
+            "      CHART=mean_qual_by_cycle.pdf" +
+            "</pre>" +
+            "<hr />";
     @Option(shortName="CHART", doc="A file (with .pdf extension) to write the chart to.")
     public File CHART_OUTPUT;
 

@@ -55,13 +55,43 @@ import java.util.List;
  * @author ktibbett@broadinstitute.org
  */
 @CommandLineProgramProperties(
-        usage = "Computes jumping library metrics.  Gets all data for computation from the first" +
-                "read in each pair and assumes that the MQ tag is set with the mate's mapping quality.  If the " +
-                "MQ tag is not set, then the program assumes that the mate's mapping quality is >= MINIMUM_MAPPING_QUALITY",
-        usageShort = "Produces jumping library metrics for the provided SAM/BAMs",
+        usage = CollectJumpingLibraryMetrics.USAGE_SUMMARY + CollectJumpingLibraryMetrics.USAGE_DETAILS,
+        usageShort = CollectJumpingLibraryMetrics.USAGE_SUMMARY,
         programGroup = Metrics.class
 )
 public class CollectJumpingLibraryMetrics extends CommandLineProgram {
+    static final String USAGE_SUMMARY = "Produces jumping library metrics from a SAM/BAM file.  ";
+    static final String USAGE_DETAILS = "The CollectJumpingLibraryMetrics tool collects high-level metrics about the " +
+            "presence of outward- (jumping) and inward-facing (non-jumping) read pairs within a SAM/BAM file.<br /><br />" +
+            "  Jumping libraries are created to bypass difficult to align/map regions, such as those containing repetitive" +
+            " DNA sequences.  Briefly, the DNA of interest is identified, cut into fragments either with restriction" +
+            " enzymes or by shearing.  The size-selected fragments are ligated to adapters for bead-capture and circularized.  " +
+            "After bead-capture, the DNA is linearized via restriction enzymes, and can be sequenced using adapter" +
+            " primers facing in outward [reverse/forward (RF)] directions.  " +
+            "These library inserts are considered jumping because the ends originate from distal genomic DNA sequences" +
+            " and are ligated adjacent to one another during circularization.  Potential artifacts of this method " +
+            "include small inserts (lacking the linearizing restriction enzyme sequence), which are inward" +
+            " facing [forward/reverse (FR)] (non-jumping) read pairs.  In addition, chimeras result from the" +
+            " paired ends falling on different chromosomes, the insert size exceeding the maximum of 100 KB, or two" +
+            " times the mode of the insert size for outward-facing pairs. For additional information, please see: " +
+            "<br /><br />www.wikipedia.org/wiki/Jumping_library#Paired-end_sequencing " +
+                    "<br /><br />" +
+            "This program gets all data for computation from the first read in each pair in which the " +
+            "the mapping quality (MQ) tag is set with the mate's mapping quality.  If the MQ tag is not set, then the program " +
+            "assumes that the mate's MQ is greater than or equal to MINIMUM_MAPPING_QUALITY (default value is 0).<br /><br /> "+
+            "All of the metric files can be opened with a text editor."  +
+                    "<br />" +
+                    "<h4>Usage example:</h4>" +
+                    "<pre>" +
+                    "java -jar picard.jar CollectJumpingLibraryMetrics \\<br />" +
+                    "      I=input.bam  \\<br />" +
+                    "      O=jumping_metrics.txt" +
+                    "</pre>" +
+                    "<hr />" +
+                    "" +
+                    "Please see http://broadinstitute.github.io/picard/picard-metric-definitions.html#JumpingLibraryMetrics" +
+                    "for additional details and explanations of the output metrics.";
+
     // Usage and parameters
 
     @Option(shortName = StandardOptionDefinitions.INPUT_SHORT_NAME, doc = "BAM file(s) of reads with duplicates marked")
