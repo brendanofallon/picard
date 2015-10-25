@@ -53,32 +53,25 @@ import java.io.File;
         programGroup = Metrics.class
 )
 public class CollectQualityYieldMetrics extends CommandLineProgram {
-    static final String USAGE_SUMMARY = "Collects a set of metrics that indicate the quantity of reads that pass quality thresholds and Illumina-specific filters.  ";
-    static final String USAGE_DETAILS = "This tool enables the user determine the overall quality of reads within a read group bam file, " +
-            "where the read group is a subset of a lane of sequence data.  The output indicates the total numbers of bases within a read group that have" +
-            " a minimum base-quality score and pass quality filters (see below).  " +
-            "Either the original (OQ) or the recalibrated base quality scores can be used.  The recalibrated base quality scores are" +
-            " obtained from the Base Quality Score Recalibration " +
-            "(BQSR) tool of GATK.  For information on the BQSR tool, please see: " +
-            "<br /><br /> http://gatkforums.broadinstitute.org/discussion/44/base-quality-score-recalibration-bqsr<br /><br /> " +
-            "" +
-            "The quality filters used in the CollectQualityYieldMetrics tool are the Illumina-specific \"chastity\" filters.  Chastity is defined" +
-            " as the ratio of the brightest base intensity divided by the sum of the brightest and second brightest base intensities.  " +
-            "Clusters \"pass filter\" (PF) if no more than 1 base call has a chastity value below 0.6 in the first 25 cycles.  " +
-            "This filtration process removes the least reliable clusters from the image analysis results."+
+    static final String USAGE_SUMMARY = "Collect metrics about reads that pass quality thresholds and Illumina-specific filters.  ";
+    static final String USAGE_DETAILS = "This tool evaluates the overall quality of reads within a bam file containing one read group. " +
+            "The output indicates the total numbers of bases within a read group that pass a minimum base quality score threshold and " +
+            "(in the case of Illumina data) pass Illumina quality filters as described <a href='http://gatkforums.broadinstitute.org/discussion/6329/pf-reads-illumina-chastity-filter'>here</a>. " +
+            "<br />" +
+            "<h4>Note on base quality score options</h4>" +
+            "If the quality score of read bases has been modified in a previous data processing step such as " +
+            "<a href='http://gatkforums.broadinstitute.org/discussion/44/base-quality-score-recalibration-bqsr'>GATK Base Recalibration</a> " +
+            "and an OQ tag is available, this tool can be set to use the OQ value instead of the primary quality value for the evaluation. " +
+            "<br />" +
             "<h4>Usage Example:</h4>" +
             "<pre>" +
             "java -jar picard.jar CollectQualityYieldMetrics \\<br /> " +
             "      I=input.bam \\<br /> "+
             "      O=quality_yield_metrics.txt \\<br />" +
             "</pre>" +
-            "For detailed explanations of the output metrics, please see: " +
-            "http://broadinstitute.github.io/picard/picard-metric-definitions.html#CollectQualityYieldMetrics.QualityYieldMetrics/<br /><br />" +
-            "" +
-            "For additional information on chastity filters, please see:" +
-            "<li>Illumina, Inc. (2015).  Calculating Percent Passing Filter for Patterned and Non-Patterned Flow Cells: " +
-            "A comparison of methods for calculating percent passing filter on Illumina flow cells.  www.Illumina.com" +
-            "" +
+            "Please see " +
+            "<a href='https://broadinstitute.github.io/picard/picard-metric-definitions.html#CollectQualityYieldMetrics.QualityYieldMetrics'>" +
+            "the QualityYieldMetrics documentation</a> for details and explanations of the output metrics." +
             "<hr />";
     @Option(shortName = StandardOptionDefinitions.INPUT_SHORT_NAME,
             doc = "A SAM or BAM file to process.")

@@ -27,36 +27,26 @@ import picard.util.RExecutor;
         programGroup = Metrics.class
 )
 public class CollectBaseDistributionByCycle extends SinglePassSamProgram {
-        static final String USAGE_SUMMARY = "Program to chart the nucleotide distribution per cycle in a SAM or BAM file";
-        static final String USAGE_DETAILS = "This program charts the nucleotide distribution per cycle in a SAM or BAM file " +
-                "to enable assessments of systematic errors at specific positions in the reads.<br /><br />" +
+        static final String USAGE_SUMMARY = "Chart the nucleotide distribution per cycle in a SAM or BAM file";
+        static final String USAGE_DETAILS = "This tool produces a chart of the nucleotide distribution per cycle in a SAM or BAM file " +
+                "in order to enable assessment of systematic errors at specific positions in the reads.<br /><br />" +
                 "" +
-                "Although the the use of this tool is described for the Illumina sequencing platform, it can be used for" +
-                " any high-throughput sequencing technology including SOLiD and Ion Torrent (Life Technologies), 454 (Roche), " +
-                "Nanopore (Oxford Nanopore Technolgies), and PACBIO RS II (Pacific Biosciences).<br /><br /> " +
-                "The Illumina sequencing platform carries out a sequence by synthesis process, whereby each cycle represents " +
-                "the addition of a new nucleotide to a growing oligonucleotide chain.  " +
-                "The growing synthetic oligonucleotide chains are represented as the observed reads in a sequencing run.  " +
-                "However, as the run progresses, the accuracy of nucleotide incorporation by the DNA polymerase can degrade, such that " +
-                "base calls become ambiguous towards the end of a run and are indicated as unassigned nucleotides \"N\"s in" +
-                " a read.  Other sources of errors include the inadequate flushing of the flow cell, which lead to " +
-                "inaccurate base calls that accumulate at each subsequent cycle.  However, each sequencing instrument platform can" +
-                " have unique sources of systematic errors e.g. A-T bias (SOLiD), deletions (Oxford Nanopore), and " +
-                "homopolymers (Roche) etc.  Sequencing platform evaluations and comparisons can be found at: " +
-                "http://www.molecularecologist.com/next-gen-table-3c-2014/ <br /><br />" +
+                "<h4>Interpretation notes</h4>" +
+                "Increased numbers of miscalled bases will be reflected in base distribution changes and increases in the number of Ns. " +
+                "In general, we expect that for any given cycle, or position within reads, the relative proportions of A, T, C and G " +
+                "should reflect the AT:GC content of the organism's genome.  Thus, for all four nucleotides, flattish lines would be " +
+                "expected.  Deviations from this expectation, for example a spike of A at a particular cycle (position within reads), " +
+                "would suggest a systematic sequencing error."+
                 "" +
-                "Using the CollectBaseDistributionByCycle tool, increased numbers of miscalled bases will be reflected " +
-                "in both base distribution changes and increases in the number of \"N\"s.  " +
-                "In general, we expect that for any given cycle, or position within reads, the relative proportions of " +
-                "A, T, C and G should reflect the AT:GC content of the organism's genome.  Thus, for all four nucleotides, flattish lines " +
-                "would be expected.  Deviations from this expectation, for example a spike of A at a particular " +
-                "cycle (position within reads), would suggest a systematic sequencing error."+
-                "" +
-                "Although previous workflows involved the discarding of low-quality tails through quality trimming, " +
-                "GATK's current Best Practices includes the Base Quality Score Recalibrator (BQSR) tool.  The BQSR tool is " +
-                "quality-aware and will handle systemic biases that covary with the reads, thus reducing systematic errors " +
-                "in a platform-independent manner.  For more information on the GATK Best Practices workflow, visit:" +
-                " http://www.broadinstitute.org/gatk/guide/best-practices/"+
+                "<h4>Note on quality trimming</h4>" +
+                "In the past, many sequencing data processing workflows included discarding the low-quality tails of reads by applying " +
+                "hard-clipping at some arbitrary base quality threshold value. This is no longer useful because most sophisticated " +
+                "analysis tools (such as the GATK variant discovery tools) are quality-aware, meaning that they are able to take base " +
+                "quality into account when weighing evidence provided by sequencing reads. Unnecessary clipping may interfere with other " +
+                "quality control evaluations and may lower the quality of analysis results. For example, trimming reduces the " +
+                "effectiveness of the Base Recalibration (BQSR) pre-processing step of the " +
+                "<a href='https://www.broadinstitute.org/gatk/guide/best-practices'>GATK Best Practices for Variant Discovery</a>, " +
+                "which aims to correct some types of systematic biases that affect the accuracy of base quality scores. " +
                 "" +
                 "<br /><h4>Usage example:</h4>" +
                 "<pre>" +
@@ -72,7 +62,7 @@ public class CollectBaseDistributionByCycle extends SinglePassSamProgram {
     @Option(doc = "If set to true, calculate the base distribution over aligned reads only.")
     public boolean ALIGNED_READS_ONLY = false;
 
-    @Option(doc = "If set to true calculate the base distribution over PF reads only.")
+    @Option(doc = "If set to true, calculate the base distribution over PF reads only (Illumina specific). PF reads are reads that passed the internal quality filters applied by Illumina sequencers.")
     public boolean PF_READS_ONLY = false;
 
     private HistogramGenerator hist;

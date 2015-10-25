@@ -22,10 +22,10 @@ import java.util.List;
         programGroup = Metrics.class
 )
 public class CompareMetrics extends CommandLineProgram {
-    static final String USAGE_SUMMARY = "Compares two metrics files";
+    static final String USAGE_SUMMARY = "Compare two metrics files.";
     static final String USAGE_DETAIL = "This tool compares the metrics and histograms generated from metric tools to determine " +
-            "if the generated results are identical.  This tool is useful to test and compare outputs when code changes are implemented.<br /><br />  " +
-            "Output indicates that two metrics are either equal or not equal. <br /> "  +
+            "if the generated results are identical.  This tool is useful to test and compare outputs when code changes are implemented. It is not meant for use by end-users of this toolkit.<br /><br />  " +
+            "The tool's output simply indicates whether two metrics files are equal or not equal. <br /> "  +
             "<h4>Usage example:</h4>" +
             "<pre>" +
             "java -jar picard.jar CompareMetrics \\<br />" +

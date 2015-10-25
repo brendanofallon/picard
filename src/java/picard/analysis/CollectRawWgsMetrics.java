@@ -17,21 +17,22 @@ import picard.cmdline.programgroups.Metrics;
         programGroup = Metrics.class
 )
 public class CollectRawWgsMetrics extends CollectWgsMetrics{
-    static final String USAGE_SUMMARY = "Writes whole genome sequencing-related metrics for a SAM or BAM file.  ";
-    static final String USAGE_DETAILS = "This tool computes a number of metrics that are useful for evaluating coverage and performance " +
-            "of whole genome sequencing experiments.  These metrics include the percentages of reads that pass" +
-            " minimal base- and mapping- quality filters as well as coverage (read-depth) levels. <br /><br />  " +
-
+    static final String USAGE_SUMMARY = "Collect whole genome sequencing-related metrics.  ";
+    static final String USAGE_DETAILS = "This tool computes metrics that are useful for evaluating coverage and performance " +
+            "of whole genome sequencing experiments. These metrics include the percentages of reads that pass" +
+            " minimal base- and mapping- quality filters as well as coverage (read-depth) levels. " +
+            "<br /><br />  " +
             "The histogram output is optional and for a given run, displays two separate outputs on the y-axis while using a single set" +
-            " of values for the x-axis.  Specifically, the first column in the histogram table (x-axis) is labeled \"coverage\" and represents" +
-            " different possible coverage depths.  However, it also represents the range of values for the base quality scores and thus should probably be" +
-            " labeled \"sequence depth and base quality scores\".  " +
-            "The second and third columns (y-axes) correspond to the numbers of bases at a specific sequence depth" +
-            " \"count\" and the numbers of bases at a particular base quality score \"baseq_count\" respectively.<br /><br />" +
-            "" +
-            "Although similar to the CollectWgsMetrics tool, the default thresholds for CollectRawWgsMetrics are less stringent.  For example, the CollectRawWgsMetrics" +
-            " have base and mapping quality score thresholds set to \"3\" and \"0\" respectively, while the CollectWgsMetrics tool has the" +
-            " default threshold values set to \"20\".  Nevertheless, both tools enable the user to input specific threshold values." +
+            " of values for the x-axis.  Specifically, the first column in the histogram table (x-axis) is labeled \"coverage\" and " +
+            "represents different possible coverage depths.  However, it also represents the range of values for the base quality scores " +
+            "and thus should probably be labeled \"sequence depth and base quality scores\". The second and third columns (y-axes) " +
+            "correspond to the numbers of bases at a specific sequence depth \"count\" and the numbers of bases at a particular base " +
+            "quality score \"baseq_count\" respectively." +
+            "<br /><br />" +
+            "Although similar to the CollectWgsMetrics tool, the default thresholds for CollectRawWgsMetrics are less stringent.  " +
+            "For example, the CollectRawWgsMetrics have base and mapping quality score thresholds set to \"3\" and \"0\" respectively, " +
+            "while the CollectWgsMetrics tool has the default threshold values set to \"20\" (at time of writing).  Nevertheless, both " +
+            "tools enable the user to input specific threshold values." +
             "" +
             "<h4>Usage example:</h4>" +
             "<pre>" +
@@ -42,8 +43,9 @@ public class CollectRawWgsMetrics extends CollectWgsMetrics{
             "      INCLUDE_BQ_HISTOGRAM=true" +
             "</pre>" +
             "<hr />" +
-            "For detailed explanations of the output metrics, please see: " +
-            "http://broadinstitute.github.io/picard/picard-metric-definitions.html#CollectWgsMetrics.WgsMetrics" +
+            "Please see " +
+            "<a href='https://broadinstitute.github.io/picard/picard-metric-definitions.html#CollectWgsMetrics.WgsMetrics'>" +
+            "the WgsMetrics documentation</a> for detailed explanations of the output metrics." +
             "<hr />";
     @Option(shortName="MQ", doc="Minimum mapping quality for a read to contribute coverage.")
     public int MINIMUM_MAPPING_QUALITY = 0;

@@ -45,19 +45,16 @@ import static java.lang.Math.log10;
         programGroup = Metrics.class
 )
 public class CollectOxoGMetrics extends CommandLineProgram {
-    static final String USAGE_SUMMARY = "Collects metrics quantifying the error rate resulting from oxidative artifacts.  ";
-    static final String USAGE_DETAILS = "Oxidation of guanine to 8-oxoguanine is one of the most common artifacts associated with genomic library" +
-            " preparation, arising from a combination of heat, shearing, and metal contaminates in a sample (doi: 10.1093/nar/gks1443)." +
-            "The 8-oxoguanine base can pair with " +
-            "either cytosine or adenine, ultimately leading to G→T transversion mutations during PCR amplification.  " +
-            "The variants (C→A)/(G→T) tend to occur in specific sequence contexts e.g. CCG→CAG" +
-            "(doi:10.1093/nar/gks1443).  Although occurring at relatively low frequencies," +
-            " these artifacts can have profound impacts on variant calling fidelity (doi:10.1093/nar/gks1443).  " +
-            "<br /><br />This tool calculates the Phred-scaled probability that an alternate base" +
-            " call results from an oxidation artifact.  This probability score is based on base context, sequencing" +
-            " read orientation, and the characteristic low allelic frequency (doi:10.1093/nar/gks1443).  Lower " +
-            "probability values implicate artifacts resulting from 8-oxoguanine, while higher probability values" +
-            " suggest that an alternate base call is due to either some other type of artifact or is a real variant." +
+    static final String USAGE_SUMMARY = "Collect metrics to assess oxidative artifacts.";
+    static final String USAGE_DETAILS = "This tool collects metrics quantifying the error rate resulting from oxidative artifacts. " +
+            "For a brief primer on oxidative artifacts, see " +
+            "<a href='http://gatkforums.broadinstitute.org/discussion/6328/oxog-oxidative-artifacts'>" +
+            "the GATK Dictionary</a>." +
+            "<br /><br />" +
+            "This tool calculates the Phred-scaled probability that an alternate base call results from an oxidation artifact. This " +
+            "probability score is based on base context, sequencing read orientation, and the characteristic low allelic frequency " +
+            "(doi:10.1093/nar/gks1443). Lower probability values implicate artifacts resulting from 8-oxoguanine, while higher " +
+            "probability values suggest that an alternate base call is due to either some other type of artifact or is a real variant." +
             "<h4>Usage example:</h4>" +
             "<pre>" +
             "java -jar picard.jar CollectOxoGMetrics \\<br />" +
